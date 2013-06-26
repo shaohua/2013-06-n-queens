@@ -9,6 +9,7 @@ describe("Board", function() {
     _.map('row col rooks majorDiagonal minorDiagonal queens'.split(' '), function(conflictType){
       var conflictDetected = board['hasAny' + capitalize(conflictType) + 'Conflicts']();
       var conflictExpected = _(expectedConflicts).contains(conflictType);
+      // debugger;
       expect(conflictDetected).toEqual(conflictExpected);
     });
   };
