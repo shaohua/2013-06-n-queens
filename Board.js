@@ -74,12 +74,27 @@
       }, false, this);
     },
 
+    //added by Zak and Shao
+    _getColumn:function(input){
+      var matrix = this.rows();
+      return _(matrix).map(function(row){
+        return row[input];
+      });
+    },
+
     hasColConflictAt: function(colIndex){
-      return false; // fixme
+      var count = _(this._getColumn(colIndex)).countBy(function(num){
+        return num === 1 ? 'one' : 'zero';
+      }, this);
+      return count.one > 1 ? true : false;
     },
 
     hasAnyColConflicts: function(){
-      return false; // fixme
+      // console.log('rows: ', this.rows());
+      return _(_.range(this.get('n'))).reduce(function(memo, col){
+        memo = memo || this.hasColConflictAt(col);
+        return memo;
+      }, false, this);
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
