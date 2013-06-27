@@ -121,7 +121,7 @@
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
-      // console.log('hasMajorDiagonalConflictAt: ', optionalMatrix);
+      console.log('hasMajorDiagonalConflictAt: ', optionalMatrix);
       var count = _(this._getMajorDiagonal(majorDiagonalColumnIndexAtFirstRow, optionalMatrix)).countBy(function(num){
         return num === 1 ? 'one' : 'zero';
       }, this);
@@ -159,8 +159,10 @@
     hasAnyMinorDiagonalConflicts: function(){
       var matrix = this.rows();
       var rotated = this._rotateNinetyDegrees(matrix);
-      var cloned = _.clone(rotated);
-      var result = this.hasAnyMajorDiagonalConflicts([1]);
+      console.log('rotated empty');
+      console.log('rotated array: ', rotated);
+      // var cloned = _.clone(rotated);
+      var result = this.hasAnyMajorDiagonalConflicts(rotated);
       return result;
     }
 
