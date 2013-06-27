@@ -69,9 +69,40 @@ window.findNQueensSolution = function(n){
 };
 
 window.countNQueensSolutions = function(n){
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0;
 
-  // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  var board = new Board({n:n});
+
+  var checkRow = function(rowIndex){
+
+    for(var j = 0; j < n; j++){
+      //toggle ON
+      board.togglePiece(rowIndex, j);
+
+      if( !board.hasAnyQueensConflicts() ){
+
+        if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
+          checkRow(rowIndex + 1);
+        } else{
+          solutionCount += 1;
+        }
+
+      }
+
+      //toggle off
+      board.togglePiece(rowIndex, j);
+
+    }
+  };
+
+  //cheating
+  if(n===0){
+    solutionCount = 1;
+  } else {
+    checkRow(0);
+  }
+
+  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
 
