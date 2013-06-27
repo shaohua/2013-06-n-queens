@@ -13,7 +13,7 @@ describe("Board", function() {
       expect(conflictDetected).toEqual(conflictExpected);
     });
   };
-/*
+
   it("should find non conflicts", function() {
     verifyConflictTypes([], [
       [0, 0, 0, 0],
@@ -58,8 +58,8 @@ describe("Board", function() {
       [0, 1, 0, 0]
     ]);
   });
-*/
-  it("should find all major diagonal conflicts !!!!", function() {
+
+  it("should find all major diagonal conflicts !!!!!!", function() {
     verifyConflictTypes(['majorDiagonal', 'queens'], [
       [0, 1, 0, 0],
       [0, 0, 0, 0],
@@ -68,13 +68,13 @@ describe("Board", function() {
     ]);
   });
 
-  // it("should find minor diagonal conflicts", function() {
-  //   verifyConflictTypes(['minorDiagonal', 'queens'], [
-  //     [0, 0, 1, 0],
-  //     [0, 0, 0, 0],
-  //     [1, 0, 0, 0],
-  //     [0, 0, 0, 0]
-  //   ]);
-  // });
+  it("should find minor diagonal conflicts", function() {
+    verifyConflictTypes(['minorDiagonal', 'queens'], [
+      [0, 0, 1, 0],
+      [0, 0, 0, 0],
+      [1, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
+  });
 
 });

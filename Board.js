@@ -67,8 +67,6 @@
     },
 
     hasAnyRowConflicts: function(){
-      // console.log('---hasAnyRowConflicts---');
-      // var memo = false;
       return _(_.range(this.get('n'))).reduce(function(memo, row){
         memo = memo || this.hasRowConflictAt(row);
         return memo;
@@ -92,8 +90,6 @@
     },
 
     hasAnyColConflicts: function(){
-      // console.log('rows: ', this.rows());
-      // var memo = false;
       return _(_.range(this.get('n'))).reduce(function(memo, col){
         memo = memo || this.hasColConflictAt(col);
         return memo;
@@ -102,12 +98,9 @@
 
     //added by Zak and Shao
     _getMajorDiagonal: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
-      // console.log('_getMajorDiagonal: ', optionalMatrix);
-      // debugger;
       var N = this.get('n');
       var matrix = optionalMatrix || this.rows();
       var count = majorDiagonalColumnIndexAtFirstRow;
-      // debugger;
       var map_results = _(matrix).map(function(row){
         var output = row[count];
         count++;
@@ -123,28 +116,22 @@
         }
       });
 
-      console.log('map_cleaned_results: ', map_cleaned_results);
       return map_cleaned_results;
     },
 
-    _getMinorDiagonal: function(){
-
-    },
+    // _getMinorDiagonal: function(){
+    // },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
-      // console.log('hasMajorDiagonalConflictAt: ', optionalMatrix);
       var count = _(this._getMajorDiagonal(majorDiagonalColumnIndexAtFirstRow, optionalMatrix)).countBy(function(num){
         return num === 1 ? 'one' : 'zero';
       }, this);
       return count.one > 1 ? true : false;
-      // return false;
     },
 
     hasAnyMajorDiagonalConflicts: function(optionalMatrix){
-      console.log('hasAnyMajorDiagonalConflicts: ', optionalMatrix);
       //iterate through all major diagonals
       //assuming from -(n - 1) to (n - 1)
-      // var memo = false;
       return _(_.range(1-this.get('n'), this.get('n'))).reduce(function(memo, majDiag){
         memo = memo || this.hasMajorDiagonalConflictAt(majDiag, optionalMatrix);
         return memo;
@@ -168,13 +155,10 @@
     },
 
     hasAnyMinorDiagonalConflicts: function(){
-      // var matrix = this.rows();
-      // var rotated = this._rotateNinetyDegrees(matrix);
-      // console.log('rotated empty');
-      // console.log('rotated array: ', rotated);
-      // // var cloned = _.clone(rotated);
-      // var result = this.hasAnyMajorDiagonalConflicts(rotated);
-      // return result;
+      var matrix = this.rows();
+      var rotated = this._rotateNinetyDegrees(matrix);
+      var result = this.hasAnyMajorDiagonalConflicts(rotated);
+      return result;
     }
 
   });
