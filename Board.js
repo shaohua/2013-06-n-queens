@@ -68,7 +68,7 @@
 
     hasAnyRowConflicts: function(){
       // console.log('---hasAnyRowConflicts---');
-      var memo = false;
+      // var memo = false;
       return _(_.range(this.get('n'))).reduce(function(memo, row){
         memo = memo || this.hasRowConflictAt(row);
         return memo;
@@ -93,7 +93,7 @@
 
     hasAnyColConflicts: function(){
       // console.log('rows: ', this.rows());
-      var memo = false;
+      // var memo = false;
       return _(_.range(this.get('n'))).reduce(function(memo, col){
         memo = memo || this.hasColConflictAt(col);
         return memo;
@@ -102,7 +102,7 @@
 
     //added by Zak and Shao
     _getMajorDiagonal: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
-      console.log('_getMajorDiagonal: ', optionalMatrix);
+      // console.log('_getMajorDiagonal: ', optionalMatrix);
       // debugger;
       var N = this.get('n');
       var matrix = optionalMatrix || this.rows();
@@ -111,7 +111,7 @@
       var map_results = _(matrix).map(function(row){
         var output = row[count];
         count++;
-        if(count < N){
+        if(count <= N){ //here is where the problem is
           return output;
         }
       });
@@ -123,6 +123,7 @@
         }
       });
 
+      console.log('map_cleaned_results: ', map_cleaned_results);
       return map_cleaned_results;
     },
 
@@ -143,7 +144,7 @@
       console.log('hasAnyMajorDiagonalConflicts: ', optionalMatrix);
       //iterate through all major diagonals
       //assuming from -(n - 1) to (n - 1)
-      var memo = false;
+      // var memo = false;
       return _(_.range(1-this.get('n'), this.get('n'))).reduce(function(memo, majDiag){
         memo = memo || this.hasMajorDiagonalConflictAt(majDiag, optionalMatrix);
         return memo;
@@ -167,13 +168,13 @@
     },
 
     hasAnyMinorDiagonalConflicts: function(){
-      var matrix = this.rows();
-      var rotated = this._rotateNinetyDegrees(matrix);
-      console.log('rotated empty');
-      console.log('rotated array: ', rotated);
-      // var cloned = _.clone(rotated);
-      var result = this.hasAnyMajorDiagonalConflicts(rotated);
-      return result;
+      // var matrix = this.rows();
+      // var rotated = this._rotateNinetyDegrees(matrix);
+      // console.log('rotated empty');
+      // console.log('rotated array: ', rotated);
+      // // var cloned = _.clone(rotated);
+      // var result = this.hasAnyMajorDiagonalConflicts(rotated);
+      // return result;
     }
 
   });

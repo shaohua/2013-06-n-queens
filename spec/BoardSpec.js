@@ -59,7 +59,7 @@ describe("Board", function() {
     ]);
   });
 */
-  it("should find all major diagonal conflicts ROTATED", function() {
+  it("should find all major diagonal conflicts !!!!", function() {
     verifyConflictTypes(['majorDiagonal', 'queens'], [
       [0, 1, 0, 0],
       [0, 0, 0, 0],
