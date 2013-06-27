@@ -3,9 +3,14 @@
 // (There are also optimizations that will allow you to skip a lot of the dead search space)
 
 window.findNRooksSolution = function(n){
-  var solution = undefined; //fixme
 
-  console.log('Single solution for ' + n + ' rooks:', solution);
+  var solution = _( _.range(n) ).map(function(index){
+    var soln = Array.apply(null, new Array(n)).map(Number.prototype.valueOf,0);
+    soln[index] = 1;
+    return soln;
+  });
+
+  // console.log('Single solution for ' + n + ' rooks:', solution);
   return solution;
 };
 
@@ -19,14 +24,14 @@ window.countNRooksSolutions = function(n){
 window.findNQueensSolution = function(n){
   var solution = undefined; //fixme
 
-  console.log('Single solution for ' + n + ' queens:', solution);
+  // console.log('Single solution for ' + n + ' queens:', solution);
   return solution;
 };
 
 window.countNQueensSolutions = function(n){
   var solutionCount = undefined; //fixme
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
 
