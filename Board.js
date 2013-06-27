@@ -103,17 +103,27 @@
     //added by Zak and Shao
     _getMajorDiagonal: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
       console.log('_getMajorDiagonal: ', optionalMatrix);
+      // debugger;
       var N = this.get('n');
       var matrix = optionalMatrix || this.rows();
       var count = majorDiagonalColumnIndexAtFirstRow;
-      var map_results = _(matrix).map(function(row, rowIndex){
+      // debugger;
+      var map_results = _(matrix).map(function(row){
         var output = row[count];
         count++;
         if(count < N){
           return output;
         }
       });
-      return map_results;
+
+      var map_cleaned_results = [];
+      _(map_results).each(function(item,index){
+        if(item !== undefined){
+          map_cleaned_results.push(item);
+        }
+      });
+
+      return map_cleaned_results;
     },
 
     _getMinorDiagonal: function(){
@@ -121,7 +131,7 @@
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
-      console.log('hasMajorDiagonalConflictAt: ', optionalMatrix);
+      // console.log('hasMajorDiagonalConflictAt: ', optionalMatrix);
       var count = _(this._getMajorDiagonal(majorDiagonalColumnIndexAtFirstRow, optionalMatrix)).countBy(function(num){
         return num === 1 ? 'one' : 'zero';
       }, this);
