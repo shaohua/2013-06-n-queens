@@ -1,7 +1,7 @@
 describe("solvers", function() {
   window.displayBoard = function(){};
 
-  describe('findNRooksSolution()', function(){
+/*  describe('findNRooksSolution()', function(){
 
     it('finds a valid solution for n of 0-8', function(){
       _.range(1, 8).map(function(n){
@@ -33,7 +33,7 @@ describe("solvers", function() {
       });
     });
 
-  });
+  });*/
 
   describe('countNQueensSolutions()', function(){
 
