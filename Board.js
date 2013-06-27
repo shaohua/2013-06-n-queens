@@ -68,6 +68,7 @@
 
     hasAnyRowConflicts: function(){
       // console.log('---hasAnyRowConflicts---');
+      var memo = false;
       return _(_.range(this.get('n'))).reduce(function(memo, row){
         memo = memo || this.hasRowConflictAt(row);
         return memo;
@@ -77,9 +78,10 @@
     //added by Zak and Shao
     _getColumn:function(input){
       var matrix = this.rows();
-      return _(matrix).map(function(row){
+      var result = _(matrix).map(function(row){
         return row[input];
       });
+      return result;
     },
 
     hasColConflictAt: function(colIndex){
@@ -91,26 +93,75 @@
 
     hasAnyColConflicts: function(){
       // console.log('rows: ', this.rows());
+      var memo = false;
       return _(_.range(this.get('n'))).reduce(function(memo, col){
         memo = memo || this.hasColConflictAt(col);
         return memo;
       }, false, this);
     },
 
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
-      return false; // fixme
+    //added by Zak and Shao
+    _getMajorDiagonal: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
+      console.log('_getMajorDiagonal: ', optionalMatrix);
+      var N = this.get('n');
+      var matrix = optionalMatrix || this.rows();
+      var count = majorDiagonalColumnIndexAtFirstRow;
+      var map_results = _(matrix).map(function(row, rowIndex){
+        var output = row[count];
+        count++;
+        if(count < N){
+          return output;
+        }
+      });
+      return map_results;
     },
 
-    hasAnyMajorDiagonalConflicts: function(){
-      return false; // fixme
+    _getMinorDiagonal: function(){
+
+    },
+
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow, optionalMatrix){
+      // console.log('hasMajorDiagonalConflictAt: ', optionalMatrix);
+      var count = _(this._getMajorDiagonal(majorDiagonalColumnIndexAtFirstRow, optionalMatrix)).countBy(function(num){
+        return num === 1 ? 'one' : 'zero';
+      }, this);
+      return count.one > 1 ? true : false;
+      // return false;
+    },
+
+    hasAnyMajorDiagonalConflicts: function(optionalMatrix){
+      console.log('hasAnyMajorDiagonalConflicts: ', optionalMatrix);
+      //iterate through all major diagonals
+      //assuming from -(n - 1) to (n - 1)
+      var memo = false;
+      return _(_.range(1-this.get('n'), this.get('n'))).reduce(function(memo, majDiag){
+        memo = memo || this.hasMajorDiagonalConflictAt(majDiag, optionalMatrix);
+        return memo;
+      }, false, this);
     },
 
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
+      console.log('this shouldnot happen');
       return false; // fixme
     },
 
+    //expect a nested array as input
+    //rotate the array 90 degree clockwise
+    //return the new array
+    _rotateNinetyDegrees: function(matrix){
+      var transposed = _.zip.apply(null, matrix);
+      var rotated = _(transposed).map(function(item){
+        return item.reverse();
+      });
+      return rotated;
+    },
+
     hasAnyMinorDiagonalConflicts: function(){
-      return false; // fixme
+      var matrix = this.rows();
+      var rotated = this._rotateNinetyDegrees(matrix);
+      var cloned = _.clone(rotated);
+      var result = this.hasAnyMajorDiagonalConflicts([1]);
+      return result;
     }
 
   });
