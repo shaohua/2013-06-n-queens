@@ -15,30 +15,47 @@ window.findNRooksSolution = function(n){
 };
 
 window.countNRooksSolutions = function(n){
-  // var solutionCount = undefined; //fixme
-  // var solutionCount = 0;
+  var solutionCount = 0;
+
+  var board = new Board({n:n});
+
+  // console.log('n: ', n, board);
+
   var checkRow = function(rowIndex){
+
     for(var j = 0; j < n; j++){
       //toggle ON
+      board.togglePiece(rowIndex, j);
+
+      // console.log('board\n' + board.rows().join('\n'));
 
       //check for both row and column conflicts
 
       //if NO conflict{
-        if(rowIndex < n){ // check for whether we have reached the end of board or not
-          rowIndex++;
-          checkRow(rowIndex);
+      if( !board.hasAnyRooksConflicts() ){
+
+        if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
+          checkRow(rowIndex + 1);
         } else{
-          //solutionCount += 1;
+          solutionCount += 1;
         }
-      //} else there's a conflict {
+
+      }
+
       //toggle off
-        
-      // }
+      board.togglePiece(rowIndex, j);
+
+      //}
 
     }
   };
 
-  //checkRow(0);
+  //cheating
+  if(n===0){
+    solutionCount = 1;
+  } else {
+    checkRow(0);
+  }
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
