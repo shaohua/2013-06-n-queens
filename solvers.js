@@ -94,7 +94,7 @@ window.findNQueensSolution = function(n){
   return solution;
 };
 
-/*window.countNQueensSolutions = function(n){
+window.countNQueensSolutions = function(n){
   var solutionCount = 0;
 
   var board = new Board({n:n});
@@ -132,32 +132,60 @@ window.findNQueensSolution = function(n){
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount + ' time_spent: ', time_spent);
   return solutionCount;
-};*/
+};
 
-window.countNQueensSolutions = function(n){
+window.countNQueensSolutionsHash = function(n){
   //started refactoring
   var solutionCount = 0;
 
   var board = new Board({n:n});
 
+  var row = {},
+      column = {},
+      major = {},
+      minor = {};
+
+  for(var rowI = 0; rowI < n; rowI ++){
+    for(var colI = 0; colI < n; colI ++){
+      row[rowI] = 0;
+      column[colI] = 0;
+      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowI,colI) ] = 0;
+      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowI, colI) ] = 0;      
+    }
+  }
+
   var checkRow = function(rowIndex){
 
-    for(var j = 0; j < n; j++){
+    for(var colIndex = 0; colIndex < n; colIndex++){
       //toggle ON
-      board.togglePiece(rowIndex, j);
+      board.togglePiece(rowIndex, colIndex);
+      row[rowIndex] += 1;
+      column[colIndex] += 1;
+      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] += 1;
+      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] += 1;
 
-      if( !board.hasAnyQueensConflicts() ){
+      var queen_conflict = row[rowIndex]>1 || column[colIndex]>1 || 
+            major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ]>1 ||
+            minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ]>1;
+
+      if( !queen_conflict ){
 
         if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
           checkRow(rowIndex + 1);
         } else{
-          solutionCount += 1;
+          solutionCount++;
+          // solution = board.rows();
+          // console.log('board\n' + board.rows().join('\n'));
         }
 
       }
 
       //toggle off
-      board.togglePiece(rowIndex, j);
+      board.togglePiece(rowIndex, colIndex);
+      row[rowIndex] -= 1;
+      column[colIndex] -= 1;
+      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] -= 1;
+      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] -= 1;
 
     }
   };
