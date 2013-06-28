@@ -45,6 +45,15 @@ var runner = function(prefix, bag){
       runner(prefix_copy, bag_copy);
     }
 
+    // WRONG solution
+    // for(var i = 0; i < bag.length; i++){
+    //   prefix.push(bag[i]);
+    //   prefix_copy = _.clone(prefix);
+    //   bag.splice(i,1);
+    //   bag_copy = _.clone(bag);
+    //   runner(prefix_copy, bag_copy);
+    // }
+
   }
 };
 
