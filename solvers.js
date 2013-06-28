@@ -147,10 +147,10 @@ window.countNQueensSolutionsHash = function(n){
 
   for(var rowI = 0; rowI < n; rowI ++){
     for(var colI = 0; colI < n; colI ++){
-      row[rowI] = 0;
-      column[colI] = 0;
-      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowI,colI) ] = 0;
-      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowI, colI) ] = 0;      
+      row[rowI] = false;
+      column[colI] = false;
+      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowI,colI) ] = false;
+      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowI, colI) ] = false;      
     }
   }
 
@@ -158,17 +158,17 @@ window.countNQueensSolutionsHash = function(n){
 
     for(var colIndex = 0; colIndex < n; colIndex++){
       //toggle ON
-      board.togglePiece(rowIndex, colIndex);
-      row[rowIndex] += 1;
-      column[colIndex] += 1;
-      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] += 1;
-      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] += 1;
 
-      var queen_conflict = row[rowIndex]>1 || column[colIndex]>1 || 
-            major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ]>1 ||
-            minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ]>1;
+      var queen_conflict = row[rowIndex] || column[colIndex] || 
+            major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] ||
+            minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ];
 
       if( !queen_conflict ){
+        board.togglePiece(rowIndex, colIndex);
+        row[rowIndex] = true;
+        column[colIndex] = true;
+        major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = true;
+        minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = true;
 
         if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
           checkRow(rowIndex + 1);
@@ -182,10 +182,10 @@ window.countNQueensSolutionsHash = function(n){
 
       //toggle off
       board.togglePiece(rowIndex, colIndex);
-      row[rowIndex] -= 1;
-      column[colIndex] -= 1;
-      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] -= 1;
-      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] -= 1;
+      row[rowIndex] = false;
+      column[colIndex] = false;
+      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = false;
+      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = false;
 
     }
   };
