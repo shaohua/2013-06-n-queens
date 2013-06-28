@@ -134,7 +134,7 @@ window.countNQueensSolutions = function(n){
   return solutionCount;
 };
 
-window.countNQueensSolutionsHash = function(n){
+/*window.countNQueensSolutionsHash = function(n){
   //started refactoring
   var solutionCount = 0;
 
@@ -183,6 +183,61 @@ window.countNQueensSolutionsHash = function(n){
       //toggle off
       board.togglePiece(rowIndex, colIndex);
       row[rowIndex] = false;
+      column[colIndex] = false;
+      major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = false;
+      minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = false;
+
+    }
+  };
+
+  //cheating
+  if(n===0){
+    solutionCount = 1;
+  } else {
+    var time_start = new Date();
+    checkRow(0);
+    var time_spent = new Date() - time_start;
+  }
+
+  console.log('Number of solutions for ' + n + ' queens:', solutionCount + ' time_spent: ', time_spent);
+  return solutionCount;
+};*/
+
+window.countNQueensSolutionsHash = function(n){
+  //started refactoring
+  var solutionCount = 0;
+
+  var board = new Board({n:n});
+
+  var column = {},
+      major = {},
+      minor = {};
+
+  var checkRow = function(rowIndex){
+
+    for(var colIndex = 0; colIndex < n; colIndex++){
+      //toggle ON
+
+      var queen_conflict = row[rowIndex] || column[colIndex] || 
+            major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] ||
+            minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ];
+
+      if( !queen_conflict ){
+        column[colIndex] = true;
+        major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = true;
+        minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = true;
+
+        if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
+          checkRow(rowIndex + 1);
+        } else{
+          solutionCount++;
+          // solution = board.rows();
+          // console.log('board\n' + board.rows().join('\n'));
+        }
+
+      }
+
+      //toggle off
       column[colIndex] = false;
       major[ board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = false;
       minor[ board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = false;

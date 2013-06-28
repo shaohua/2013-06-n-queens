@@ -23,18 +23,25 @@ var checkRow = function(rowIndex){
 
 // checkRow(0);
 
+// Another way to clone the object
+// //http://blog.imaginea.com/deep-copy-in-javascript/
+
+var _ = require('underscore');
+
 var runner = function(prefix, bag){
   //base case
+  console.log('runner', prefix.length, bag.length);
+
   if(bag.length === 0){
     console.log('The end: ' + prefix);
     return;
   } else{
 
     for(var i = 0; i < bag.length; i++){
-      prefix_copy = prefix.push(bag[i]);
-      bag.splice(i,1);
-      bag_copy = bag;
-      debugger;
+      bag_copy = _.clone(bag);
+      prefix_copy = _.clone(prefix);
+      prefix_copy.push( bag_copy.splice(i,1)[0] );
+      
       runner(prefix_copy, bag_copy);
     }
 
@@ -42,3 +49,5 @@ var runner = function(prefix, bag){
 };
 
 runner([], [1,2,3]);
+
+return;
