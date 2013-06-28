@@ -207,8 +207,6 @@ window.countNQueensSolutionsHash = function(n){
   //started refactoring
   var solutionCount = 0;
 
-  var board = new Board({n:n});
-
   var HUN = 100;
 
   var column = {},
@@ -221,13 +219,13 @@ window.countNQueensSolutionsHash = function(n){
       //toggle ON
 
       var queen_conflict = row[rowIndex] || column[colIndex] || 
-            major[ HUN + board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] ||
-            minor[ HUN + board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ];
+            major[ HUN + colIndex - rowIndex ] ||
+            minor[ HUN + colIndex + rowIndex ];
 
       if( !queen_conflict ){
         column[colIndex] = true;
-        major[ HUN + board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = true;
-        minor[ HUN + board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = true;
+        major[ HUN + colIndex - rowIndex ] = true;
+        minor[ HUN + colIndex + rowIndex ] = true;
 
         if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
           checkRow(rowIndex + 1);
@@ -241,8 +239,8 @@ window.countNQueensSolutionsHash = function(n){
 
       //toggle off
       column[colIndex] = false;
-      major[ HUN + board._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex,colIndex) ] = false;
-      minor[ HUN + board._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex) ] = false;
+      major[ HUN + colIndex - rowIndex ] = false;
+      minor[ HUN + colIndex + rowIndex ] = false;
 
     }
   };
