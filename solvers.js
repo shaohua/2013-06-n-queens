@@ -125,10 +125,12 @@ window.countNQueensSolutions = function(n){
   if(n===0){
     solutionCount = 1;
   } else {
+    var time_start = new Date();
     checkRow(0);
+    var time_spent = new Date() - time_start;
   }
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  console.log('Number of solutions for ' + n + ' queens:', solutionCount + ' time_spent: ', time_spent);
   return solutionCount;
 };
 
