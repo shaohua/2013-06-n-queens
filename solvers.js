@@ -94,7 +94,48 @@ window.findNQueensSolution = function(n){
   return solution;
 };
 
+/*window.countNQueensSolutions = function(n){
+  var solutionCount = 0;
+
+  var board = new Board({n:n});
+
+  var checkRow = function(rowIndex){
+
+    for(var j = 0; j < n; j++){
+      //toggle ON
+      board.togglePiece(rowIndex, j);
+
+      if( !board.hasAnyQueensConflicts() ){
+
+        if(rowIndex + 1< n){ // check for whether we have reached the end of board or not
+          checkRow(rowIndex + 1);
+        } else{
+          solutionCount += 1;
+        }
+
+      }
+
+      //toggle off
+      board.togglePiece(rowIndex, j);
+
+    }
+  };
+
+  //cheating
+  if(n===0){
+    solutionCount = 1;
+  } else {
+    var time_start = new Date();
+    checkRow(0);
+    var time_spent = new Date() - time_start;
+  }
+
+  console.log('Number of solutions for ' + n + ' queens:', solutionCount + ' time_spent: ', time_spent);
+  return solutionCount;
+};*/
+
 window.countNQueensSolutions = function(n){
+  //started refactoring
   var solutionCount = 0;
 
   var board = new Board({n:n});
@@ -133,7 +174,6 @@ window.countNQueensSolutions = function(n){
   console.log('Number of solutions for ' + n + ' queens:', solutionCount + ' time_spent: ', time_spent);
   return solutionCount;
 };
-
 
 // This function uses a board visualizer lets you view an interactive version of any piece matrix.
 
